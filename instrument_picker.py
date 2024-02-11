@@ -51,6 +51,5 @@ btn.when_released = select_patch
 btn.when_held = stop_script
 done.wait()
 
-
 # import os
 # os.system('/home/tedpower/Pianoteq\ 8 --preset "Celtic Harp Sweet"')
