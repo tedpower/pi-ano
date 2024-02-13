@@ -1,4 +1,5 @@
 SESSION_DURATION = 5
+ROTARY_CENTER = 60
 
 INSTRUMENTS = {}
 INSTRUMENTS[0] = {"name" : "Rhodes", "preset" : ""}
