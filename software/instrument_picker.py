@@ -26,7 +26,7 @@ def update_cursor():
     global cursor 
     cursor = rotor.steps % 6
     print(f'Current cursor = {cursor}')
-    print(f'Current cursor instrument = {constants.INSTRUMENTS[cursor]}')
+    print(f'Current cursor instrument = {constants.INSTRUMENTS[cursor]['name']}')
     led_update(cursor)
     t.cancel()
     new_rotation_session_countdown()
@@ -38,7 +38,7 @@ def select_patch():
     global selected
     selected = cursor
     print(f'Current selected = {selected}')
-    print(f'Current selected instrument = {constants.INSTRUMENTS[selected]}')
+    print(f'Current selected instrument = {constants.INSTRUMENTS[selected]['name']}')
     # open pianoteq preset
     end_rotation_session()
 
