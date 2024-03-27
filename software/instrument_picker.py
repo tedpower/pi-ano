@@ -13,20 +13,20 @@ rotor.steps = constants.ROTARY_CENTER
 btn = Button(17, pull_up=False) # GPIO 11
 
 # Set up LEDs
-instrument_led_0 = LED(8)   # GPIO 24, left bottom
-instrument_led_1 = LED(7)   # GPIO 26, left middle
-instrument_led_2 = LED(12)  # GPIO 32, left top
-instrument_led_3 = LED(23)  # GPIO 16, right top
-instrument_led_4 = LED(24)  # GPIO 18, right middle
-instrument_led_5 = LED(25)  # GPIO 22, right bottom
+instrument_led_0 = LED(25)  # GPIO 22, left bottom
+instrument_led_1 = LED(24)  # GPIO 18, left middle
+instrument_led_2 = LED(23)  # GPIO 16, left top
+instrument_led_3 = LED(12)  # GPIO 32, right top
+instrument_led_4 = LED(7)   # GPIO 26, right middle
+instrument_led_5 = LED(8)   # GPIO 24, right bottom
 
 # Fires every time the rotary encoder value changes
 def update_cursor():
-    print(f'Current step = {rotor.steps}')
     global cursor 
     cursor = rotor.steps % 6
-    print(f'Current cursor = {cursor}')
-    print(f'Current cursor instrument = {constants.INSTRUMENTS[cursor]["name"]}')
+    print(f'Current step = {rotor.steps}')
+    print(f'Cursor = {cursor}')
+    print(f'Cursor instrument = {constants.INSTRUMENTS[cursor]["name"]}')
     led_update(cursor)
     t.cancel()
     new_rotation_session_countdown()
@@ -34,20 +34,21 @@ def update_cursor():
 
 # Fires when the button is pressed
 def select_patch():
-    print('Click!')
     global selected
     selected = cursor
-    print(f'Current selected = {selected}')
-    print(f'Current selected instrument = {constants.INSTRUMENTS[selected]["name"]}')
+    print('Click!')
+    print(f'Selected = {selected}')
+    print(f'Selected instrument = {constants.INSTRUMENTS[selected]["name"]}')
     os.system(f'{constants.PIANOTEQ_PATH} --preset "{constants.INSTRUMENTS[selected]["preset"]}"')
-    end_rotation_session()
 
 # Fires when an active rotation session countdown timer completes
 def end_rotation_session():
     global rotor
-    rotor.steps = selected + constants.ROTARY_CENTER
+    rotor.steps = selected + constants.ROTARY_CENTER # re-center on selected
+    global cursor
+    cursor = selected
     led_update(selected)
-    print("Session either timed out or was ended")
+    print("Session end")
 
 # Helper: Reset a timer every rotation increment
 def new_rotation_session_countdown():
